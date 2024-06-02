@@ -20,7 +20,7 @@ const processed = new WeakSet<HTMLDivElement>()
 async function processFeedbacks() {
   const items = [
     ...document.querySelectorAll<HTMLDivElement>(
-      '.script-discussion-list .discussion-list-container .discussion-list-item'
+      '.script-discussion-list .discussion-list-container .discussion-list-item',
     ),
   ].filter((item) => !processed.has(item))
 
@@ -43,6 +43,17 @@ enum Rating {
   Good = 'Good',
 }
 
+function getHasAdminPermission() {
+  const adminUrl = new URL('./admin', location.href)
+  const adminUrlPath = adminUrl.pathname
+  const hasAdminEntry = !!document.querySelector<HTMLAnchorElement>(
+    `#script-links a[href^='${adminUrlPath}']`,
+  )
+  return hasAdminEntry
+}
+
+const hasAdminPermission = getHasAdminPermission()
+
 function handleFeedbackItem(item: HTMLDivElement) {
   if (processed.has(item)) return
   processed.add(item)
@@ -51,8 +62,10 @@ function handleFeedbackItem(item: HTMLDivElement) {
   if (!uid || !username || !title || !rating) return
 
   // hide
-  if (rating !== Rating.Good) {
-    return hideFeedback(item)
+  if (hasAdminPermission) {
+    if (rating !== Rating.Good) {
+      return hideFeedback(item)
+    }
   }
 
   /**
@@ -85,7 +98,7 @@ function parseFeedbackItem(item: HTMLDivElement) {
 
   // info
   const title = item.querySelector<HTMLAnchorElement>(
-    '.discussion-title .discussion-snippet'
+    '.discussion-title .discussion-snippet',
   )?.innerText
   const ratingSpan = item.querySelector<HTMLSpanElement>('.discussion-title .rating-icon')
   const ratingText = ratingSpan?.innerText.trim().toLocaleLowerCase() || ''
