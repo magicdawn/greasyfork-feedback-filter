@@ -5,9 +5,11 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "tsc && vite build",
+    "build:typecheck": "tsc",
+    "build:real-build": "vite build",
     "preview": "vite preview",
-    "prepare": "husky install",
+    "build": "pnpm build:typecheck && pnpm build:real-build && pnpm preview",
+    "prepare": "husky",
     "test": "vitest run",
     "test:dev": "vitest",
     "test-cover": "vitest run --coverage"
