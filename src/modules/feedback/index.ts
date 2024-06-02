@@ -102,15 +102,15 @@ function parseFeedbackItem(item: HTMLDivElement) {
   )?.innerText
   const ratingSpan = item.querySelector<HTMLSpanElement>('.discussion-title .rating-icon')
   const ratingText = ratingSpan?.innerText.trim().toLocaleLowerCase() || ''
-  const ratingClassName = [...(ratingSpan?.classList || [])]
+  const ratingClassname = [...(ratingSpan?.classList || [])]
     .filter((x) => x.startsWith('rating-icon-'))
-    .map((x) => x.replace(/^rating-icon-?/, ''))
+    .map((x) => x.replace(/^rating-icon-/, ''))
     .filter(Boolean)[0]
   const rating = (() => {
     if (!ratingText) return Rating.NoRating
-    if (ratingText === 'good' || ratingClassName === 'good') return Rating.Good
-    if (ratingText === 'ok' || ratingClassName === 'ok') return Rating.OK
-    if (ratingText === 'bad' || ratingClassName === 'bad') return Rating.Bad
+    if (ratingText === 'good' || ratingClassname === 'good') return Rating.Good
+    if (ratingText === 'ok' || ratingClassname === 'ok') return Rating.OK
+    if (ratingText === 'bad' || ratingClassname === 'bad') return Rating.Bad
   })()
 
   return { uid, username, title, rating }
