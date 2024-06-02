@@ -9,6 +9,7 @@ export default defineConfig({
     monkey({
       entry: 'src/main.tsx',
       userscript: {
+        name: 'GreasyFork Feedback Filter',
         icon: 'https://vitejs.dev/logo.svg',
         namespace: 'https://magicdawn.fun/greasyfork-feedback-filter',
         match: ['https://greasyfork.org/*'],
