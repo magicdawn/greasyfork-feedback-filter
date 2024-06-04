@@ -1,0 +1,57 @@
+name: release
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    env:
+      RELEASE: 'true'
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'pnpm'
+
+      # install deps
+      - run: pnpm install --frozen-lockfile
+
+      # turbo cache
+      - uses: actions/cache@v4
+        with:
+          path: node_modules/.cache/turbo
+          key: turbo-cache-${{ runner.os }}
+
+      # build
+      - run: pnpm build:real-build
+
+      # prepare
+      - run: cp README.md CHANGELOG.md ./dist
+
+      # commit to release branch
+      - uses: peaceiris/actions-gh-pages@v4
+        with:
+          publish_branch: release
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./dist
+          # webhook not working when orphan commit
+          # greasyfork webhook 依赖 modified: [], 需要包含 xxx.user.js
+          # https://github.com/YDX-2147483647/BIT-enhanced/issues/4#issuecomment-1590620027
+          force_orphan: false
+
+      # create release
+      - run: pnpm changelogen gh release
+
+      # upload release
+      - run: gh release upload --clobber ${{ github.ref_name }} ./dist

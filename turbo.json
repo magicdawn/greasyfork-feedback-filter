@@ -1,0 +1,15 @@
+{
+  "$schema": "https://turbo.build/schema.json",
+  "pipeline": {
+    "typecheck": {
+      "dependsOn": [],
+      "inputs": ["src/**/*.{ts,tsx}", "tsconfig.json"]
+    },
+    "build:vite": {
+      "dependsOn": ["typecheck"],
+      "env": ["RELEASE", "RELEASE_NIGHTLY"],
+      "inputs": ["src/**/*.{ts,tsx}", "tsconfig.json", "vite.config.ts", "package.json"],
+      "outputs": ["dist/greasyfork-feedback-filter.user.js"]
+    }
+  }
+}

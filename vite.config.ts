@@ -35,8 +35,8 @@ export default defineConfig({
       },
       build: {
         externalGlobals: {
-          'react': cdn.jsdelivr('React', 'umd/react.production.min.js'),
-          'react-dom': cdn.jsdelivr('ReactDOM', 'umd/react-dom.production.min.js'),
+          'react': cdn.npmmirror('React', 'umd/react.production.min.js'),
+          'react-dom': cdn.npmmirror('ReactDOM', 'umd/react-dom.production.min.js'),
         },
       },
     }),
