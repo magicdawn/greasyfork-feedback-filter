@@ -1,5 +1,22 @@
 # Changelog
 
+## v0.0.2
+
+[compare changes](https://github.com/magicdawn/greasyfork-feedback-filter/compare/v0.0.1...v0.0.2)
+
+### 📖 Documentation
+
+- Add links ([1c174b3](https://github.com/magicdawn/greasyfork-feedback-filter/commit/1c174b3))
+
+### 🏡 Chore
+
+- Turn off ModalConfig after dev complete ([a742948](https://github.com/magicdawn/greasyfork-feedback-filter/commit/a742948))
+- Publish on greasyfork.org ([da3c2f4](https://github.com/magicdawn/greasyfork-feedback-filter/commit/da3c2f4))
+
+### ❤️ Contributors
+
+- Magicdawn ([@magicdawn](http://github.com/magicdawn))
+
 ## v0.0.1
 
 ### 🚀 Enhancements
