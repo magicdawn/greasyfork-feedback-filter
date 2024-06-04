@@ -25615,9 +25615,6 @@
   }
   function addConfigUi() {
     var _a;
-    GM.registerMenuCommand("Config", () => {
-      showModalConfig();
-    });
     const rcEl = document.createElement("span");
     rcEl.classList.add(styled.generateClassName`
     margin-left: 20px;
@@ -25625,6 +25622,11 @@
     (_a = document.querySelector(".post-discussion > p")) == null ? void 0 : _a.appendChild(rcEl);
     const root2 = createRoot(rcEl);
     root2.render(/* @__PURE__ */ jsx(ConfigUi, {}));
+  }
+  function addConfigGmCommand() {
+    GM.registerMenuCommand("Config", () => {
+      showModalConfig();
+    });
   }
   function ConfigUi() {
     return /* @__PURE__ */ jsxs(AntdApp, { children: [
@@ -25683,6 +25685,7 @@
     }
   }
   function main() {
+    addConfigGmCommand();
     switch (getPageType()) {
       case 0:
         initFeedback();
