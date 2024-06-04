@@ -1,16 +1,15 @@
 import { APP_NAME, APP_NAME_DISPLAY } from '$common'
 import { AntdTooltip } from '$components/antd'
 import { AntdApp } from '$components/antd/AntdApp'
+import { ERating, type ERatingKey } from '$enums'
 import { styled } from '$libs'
 import { useConfigSnapshot } from '$modules/config'
-import { ModalConfig, showModalConfig } from '$modules/config/modal'
+import { showModalConfig } from '$modules/config/ModalConfig'
 import { Global, css } from '@emotion/react'
 import { Button } from 'antd'
+import { useMemo } from 'react'
 import { createRoot } from 'react-dom/client'
-import { snapshot } from 'valtio'
 import IconParkSolidConfig from '~icons/icon-park-solid/config'
-import { ERating, type ERatingKey } from '../../enums'
-import { blacklist } from './blacklist'
 
 export function initFeedback() {
   initFilterFeedbacks()
@@ -57,28 +56,18 @@ function handleFeedbackItem(item: HTMLDivElement) {
   processed.add(item)
 
   const { uid, username, title, rating } = parseFeedbackItem(item)
-  if (!uid || !username || !title || !rating) return
 
-  // attr
   if (rating) {
     const ratingKey = ERating[rating] as ERatingKey
-    item.setAttribute(RATING_ATTR_NAME, ratingKey)
+    item.setAttribute(ATTR_NAME_RATING, ratingKey)
   }
 
-  /**
-   * blacklist
-   */
-  if (blacklist.has(uid) || blacklist.has(username)) {
-    return hideFeedback(item)
+  if (uid) {
+    item.setAttribute(ATTR_NAME_UID, uid)
   }
-  // sample: 12345(some one, I hate u)
-  const reg = /^(?<uid>\d+)\([\S ]+\)$/
-  const uidsWithRemark = Array.from(snapshot(blacklist))
-    .filter((x) => reg.test(x))
-    .map((x) => reg.exec(x)?.groups?.uid)
-    .filter(Boolean)
-  if (uidsWithRemark.includes(uid)) {
-    return hideFeedback(item)
+
+  if (username) {
+    item.setAttribute(ATTR_NAME_USERNAME, username)
   }
 }
 
@@ -118,40 +107,90 @@ function hideFeedback(item: HTMLDivElement) {
 }
 
 function addConfigUi() {
+  GM.registerMenuCommand('Config', () => {
+    showModalConfig()
+  })
+
   const rcEl = document.createElement('span')
   rcEl.classList.add(styled.generateClassName`
     margin-left: 20px;
   `)
   document.querySelector('.post-discussion > p')?.appendChild(rcEl)
-
   const root = createRoot(rcEl)
   root.render(<ConfigUi />)
 }
 
-const RATING_ATTR_NAME = `data-${APP_NAME}-rating`
-
 function ConfigUi() {
-  const { hiddenRatings } = useConfigSnapshot()
   return (
     <AntdApp>
+      <HideWithStyles />
       <AntdTooltip title={`config for [${APP_NAME_DISPLAY}]`}>
         <Button onClick={showModalConfig}>
           <IconParkSolidConfig /> Config
         </Button>
       </AntdTooltip>
-
-      <ModalConfig />
-
-      <Global
-        styles={[
-          hasAdminPermission &&
-            css`
-              ${hiddenRatings.map((x) => `[${RATING_ATTR_NAME}="${x}"]`).join(',')} {
-                display: none !important;
-              }
-            `,
-        ]}
-      />
     </AntdApp>
+  )
+}
+
+const ATTR_NAME_RATING = `data-${APP_NAME}-rating`
+const ATTR_NAME_UID = `data-${APP_NAME}-uid`
+const ATTR_NAME_USERNAME = `data-${APP_NAME}-username`
+
+const regUid = /^\d+$/
+// sample: 12345(some one, I hate u)
+const regUidWithRemark = /^(?<uid>\d+)\([\S ]+\)$/
+
+function HideWithStyles() {
+  const { filterEnabled, hiddenRatings, blacklist } = useConfigSnapshot()
+
+  // rating level
+  const selectors: string[] = useMemo(() => {
+    return [...hiddenRatings.map((x) => `[${ATTR_NAME_RATING}="${x}"]`)]
+  }, [hiddenRatings, blacklist])
+
+  // blacklist
+  const blacklistSelectors: string[] = useMemo(() => {
+    const blacklistUids = new Set<string>()
+    const blacklistUsernames = new Set<string>()
+
+    blacklist.forEach((x) => {
+      if (regUidWithRemark.test(x)) {
+        const uid = regUidWithRemark.exec(x)?.groups?.uid
+        if (uid) blacklistUids.add(uid)
+      } else if (regUid.test(x)) {
+        blacklistUids.add(x)
+        blacklistUsernames.add(x)
+      } else {
+        blacklistUsernames.add(x)
+      }
+    })
+
+    return [
+      ...Array.from(blacklistUids).map((x) => `[${ATTR_NAME_UID}="${x}"]`),
+      ...Array.from(blacklistUsernames).map((x) => `[${ATTR_NAME_USERNAME}="${x}"]`),
+    ]
+  }, [blacklist])
+
+  return (
+    <Global
+      styles={[
+        // hide in MY script feedback-list
+        filterEnabled &&
+          hasAdminPermission &&
+          css`
+            ${selectors.join(',')} {
+              display: none !important;
+            }
+          `,
+        // hide anywhere
+        filterEnabled &&
+          css`
+            ${blacklistSelectors.join(',')} {
+              display: none !important;
+            }
+          `,
+      ]}
+    />
   )
 }

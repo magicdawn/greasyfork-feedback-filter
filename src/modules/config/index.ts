@@ -2,9 +2,15 @@ import { ERatingKeys, type ERatingKey } from '$enums'
 import { proxyWithGmStorage } from '$utility/valtio'
 import { useSnapshot } from 'valtio'
 
-export const configState = await proxyWithGmStorage<{ hiddenRatings: ERatingKey[] }>(
+export const configState = await proxyWithGmStorage<{
+  filterEnabled: boolean
+  hiddenRatings: ERatingKey[]
+  blacklist: string[]
+}>(
   {
+    filterEnabled: true,
     hiddenRatings: ['Bad'],
+    blacklist: [],
   },
   'config',
 )

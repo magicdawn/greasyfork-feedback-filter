@@ -1,8 +1,8 @@
+import { colorPrimary } from '$common'
 import { StyleProvider, type StyleProviderProps } from '@ant-design/cssinjs'
 import { cache as emotionCssDefaultCache } from '@emotion/css'
 import { CacheProvider, type EmotionCache } from '@emotion/react'
 import { ConfigProvider, theme } from 'antd'
-import zhCN from 'antd/locale/zh_CN'
 import type { ReactNode } from 'react'
 
 // https://github.com/emotion-js/emotion/issues/1105
@@ -23,9 +23,6 @@ export function AntdApp({
   emotionCache?: EmotionCache
   styleProviderProps?: StyleProviderProps
 }) {
-  // #01847F 马尔斯绿
-  const colorPrimary = '#01847F'
-
   const wrap = compose(
     // emotion cache
     (c) => <CacheProvider value={emotionCache}>{c}</CacheProvider>,
@@ -36,7 +33,6 @@ export function AntdApp({
     // antd config
     (c) => (
       <ConfigProvider
-        locale={zhCN}
         button={{ autoInsertSpace: false }}
         theme={{
           cssVar: true,
