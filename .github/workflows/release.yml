@@ -51,7 +51,7 @@ jobs:
           force_orphan: false
 
       # create release
-      - run: pnpm changelogen gh release
+      - run: pnpm changelogen gh release ${{ github.ref_name }}
 
       # upload release
       - run: gh release upload --clobber ${{ github.ref_name }} ./dist
