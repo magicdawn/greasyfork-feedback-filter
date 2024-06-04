@@ -1,5 +1,6 @@
 {
   "name": "greasyfork-feedback-filter",
+  "description": "Help U to hide or filter script feedbacks",
   "private": true,
   "version": "0.0.0",
   "type": "module",
