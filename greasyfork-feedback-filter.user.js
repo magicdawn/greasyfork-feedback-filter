@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         GreasyFork Feedback Filter
 // @namespace    https://magicdawn.fun/greasyfork-feedback-filter
-// @version      0.0.2
+// @version      0.0.3
 // @author       monkey
 // @description  Help U to hide or filter script feedbacks
 // @license      MIT
