@@ -107,10 +107,6 @@ function hideFeedback(item: HTMLDivElement) {
 }
 
 function addConfigUi() {
-  GM.registerMenuCommand('Config', () => {
-    showModalConfig()
-  })
-
   const rcEl = document.createElement('span')
   rcEl.classList.add(styled.generateClassName`
     margin-left: 20px;
@@ -118,6 +114,12 @@ function addConfigUi() {
   document.querySelector('.post-discussion > p')?.appendChild(rcEl)
   const root = createRoot(rcEl)
   root.render(<ConfigUi />)
+}
+
+export function addConfigGmCommand() {
+  GM.registerMenuCommand('Config', () => {
+    showModalConfig()
+  })
 }
 
 function ConfigUi() {

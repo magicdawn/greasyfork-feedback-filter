@@ -1,4 +1,4 @@
-import { initFeedback } from './modules/feedback'
+import { addConfigGmCommand, initFeedback } from './modules/feedback'
 
 enum PageType {
   FeedbackList,
@@ -15,6 +15,8 @@ function getPageType() {
 }
 
 function main() {
+  addConfigGmCommand()
+
   switch (getPageType()) {
     case PageType.FeedbackList:
       initFeedback()
