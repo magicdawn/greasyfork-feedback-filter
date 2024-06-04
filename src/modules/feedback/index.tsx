@@ -1,8 +1,20 @@
+import { APP_NAME, APP_NAME_DISPLAY } from '$common'
+import { AntdTooltip } from '$components/antd'
+import { AntdApp } from '$components/antd/AntdApp'
+import { styled } from '$libs'
+import { useConfigSnapshot } from '$modules/config'
+import { ModalConfig, showModalConfig } from '$modules/config/modal'
+import { Global, css } from '@emotion/react'
+import { Button } from 'antd'
+import { createRoot } from 'react-dom/client'
 import { snapshot } from 'valtio'
+import IconParkSolidConfig from '~icons/icon-park-solid/config'
+import { ERating, type ERatingKey } from '../../enums'
 import { blacklist } from './blacklist'
 
 export function initFeedback() {
   initFilterFeedbacks()
+  addConfigUi()
 }
 
 async function initFilterFeedbacks() {
@@ -29,20 +41,6 @@ async function processFeedbacks() {
   }
 }
 
-/**
- No rating - just a question, comment, or feature request
- Bad - script does not work
- OK - script works, but has bugs
- Good - script works
- */
-
-enum Rating {
-  NoRating = 'No rating',
-  Bad = 'Bad',
-  OK = 'OK',
-  Good = 'Good',
-}
-
 function getHasAdminPermission() {
   const adminUrl = new URL('./admin', location.href)
   const adminUrlPath = adminUrl.pathname
@@ -61,11 +59,10 @@ function handleFeedbackItem(item: HTMLDivElement) {
   const { uid, username, title, rating } = parseFeedbackItem(item)
   if (!uid || !username || !title || !rating) return
 
-  // hide
-  if (hasAdminPermission) {
-    if (rating !== Rating.Good) {
-      return hideFeedback(item)
-    }
+  // attr
+  if (rating) {
+    const ratingKey = ERating[rating] as ERatingKey
+    item.setAttribute(RATING_ATTR_NAME, ratingKey)
   }
 
   /**
@@ -107,10 +104,10 @@ function parseFeedbackItem(item: HTMLDivElement) {
     .map((x) => x.replace(/^rating-icon-/, ''))
     .filter(Boolean)[0]
   const rating = (() => {
-    if (!ratingText) return Rating.NoRating
-    if (ratingText === 'good' || ratingClassname === 'good') return Rating.Good
-    if (ratingText === 'ok' || ratingClassname === 'ok') return Rating.OK
-    if (ratingText === 'bad' || ratingClassname === 'bad') return Rating.Bad
+    if (!ratingText) return ERating.NoRating
+    if (ratingText === 'good' || ratingClassname === 'good') return ERating.Good
+    if (ratingText === 'ok' || ratingClassname === 'ok') return ERating.Ok
+    if (ratingText === 'bad' || ratingClassname === 'bad') return ERating.Bad
   })()
 
   return { uid, username, title, rating }
@@ -118,4 +115,43 @@ function parseFeedbackItem(item: HTMLDivElement) {
 
 function hideFeedback(item: HTMLDivElement) {
   item.style.display = 'none'
+}
+
+function addConfigUi() {
+  const rcEl = document.createElement('span')
+  rcEl.classList.add(styled.generateClassName`
+    margin-left: 20px;
+  `)
+  document.querySelector('.post-discussion > p')?.appendChild(rcEl)
+
+  const root = createRoot(rcEl)
+  root.render(<ConfigUi />)
+}
+
+const RATING_ATTR_NAME = `data-${APP_NAME}-rating`
+
+function ConfigUi() {
+  const { hiddenRatings } = useConfigSnapshot()
+  return (
+    <AntdApp>
+      <AntdTooltip title={`config for [${APP_NAME_DISPLAY}]`}>
+        <Button onClick={showModalConfig}>
+          <IconParkSolidConfig /> Config
+        </Button>
+      </AntdTooltip>
+
+      <ModalConfig />
+
+      <Global
+        styles={[
+          hasAdminPermission &&
+            css`
+              ${hiddenRatings.map((x) => `[${RATING_ATTR_NAME}="${x}"]`).join(',')} {
+                display: none !important;
+              }
+            `,
+        ]}
+      />
+    </AntdApp>
+  )
 }
