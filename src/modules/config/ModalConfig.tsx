@@ -17,7 +17,7 @@ const modalState = proxy({
   show: __PROD__
     ? false
     : // when dev
-      true,
+      false,
 })
 
 export function showModalConfig() {
@@ -26,7 +26,7 @@ export function showModalConfig() {
 }
 
 if (__DEV__) {
-  setTimeout(showModalConfig)
+  // setTimeout(showModalConfig)
 }
 
 export function hideModalConfig() {
