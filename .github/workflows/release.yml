@@ -54,6 +54,10 @@ jobs:
 
       # create release
       - run: pnpm changelogen gh release ${{ github.ref_name }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       # upload release
       - run: gh release upload --clobber ${{ github.ref_name }} ./dist
+        env:
+          GH_TOKEN: ${{ github.token }}
