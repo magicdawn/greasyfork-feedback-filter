@@ -1,5 +1,23 @@
 # Changelog
 
+## v0.0.3
+
+[compare changes](https://github.com/magicdawn/greasyfork-feedback-filter/compare/v0.0.2...v0.0.3)
+
+### 🚀 Enhancements
+
+- Consistent gm command menu ([8076dee](https://github.com/magicdawn/greasyfork-feedback-filter/commit/8076dee))
+
+### 🏡 Chore
+
+- Add note.md ([f89b032](https://github.com/magicdawn/greasyfork-feedback-filter/commit/f89b032))
+- Update note.md changelogen usage ([c672024](https://github.com/magicdawn/greasyfork-feedback-filter/commit/c672024))
+- --github=false not working ([ab80113](https://github.com/magicdawn/greasyfork-feedback-filter/commit/ab80113))
+
+### ❤️ Contributors
+
+- Magicdawn ([@magicdawn](http://github.com/magicdawn))
+
 ## v0.0.2
 
 [compare changes](https://github.com/magicdawn/greasyfork-feedback-filter/compare/v0.0.1...v0.0.2)
