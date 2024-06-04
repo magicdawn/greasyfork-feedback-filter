@@ -12,6 +12,16 @@
 
 [gfurl]: https://greasyfork.org/
 
+## Why
+
+did not found blacklist on GreasyFork.org, can't block specific user, so I made this.
+
+## Features
+
+![image](https://github.com/magicdawn/greasyfork-feedback-filter/assets/4067115/53dd51bf-197d-451b-9797-1221e8a352dd)
+
+![image](https://github.com/magicdawn/greasyfork-feedback-filter/assets/4067115/8654c5ef-451a-4fcc-81bf-fb175fd5e513)
+
 ## Changelog
 
 [CHANGELOG.md](CHANGELOG.md)
