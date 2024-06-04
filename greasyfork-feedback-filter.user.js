@@ -4,6 +4,7 @@
 // @version      0.0.1
 // @author       monkey
 // @description  Help U to hide or filter script feedbacks
+// @license      MIT
 // @icon         https://vitejs.dev/logo.svg
 // @source       https://github.com/magicdawn/greasyfork-feedback-filter.git
 // @match        https://greasyfork.org/*
