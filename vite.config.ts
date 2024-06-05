@@ -25,7 +25,7 @@ export default defineConfig({
       entry: 'src/main.tsx',
       userscript: {
         name: 'GreasyFork Feedback Filter',
-        icon: 'https://vitejs.dev/logo.svg',
+        icon: 'https://raw.gitmirror.com/greasyfork-org/greasyfork/main/public/images/blacklogo96.png',
         namespace: 'https://magicdawn.fun/greasyfork-feedback-filter',
         match: ['https://greasyfork.org/*'],
       },
