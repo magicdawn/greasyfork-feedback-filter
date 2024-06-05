@@ -1,5 +1,21 @@
 # Changelog
 
+## v0.0.4
+
+[compare changes](https://github.com/magicdawn/greasyfork-feedback-filter/compare/v0.0.3...v0.0.4)
+
+### 🚀 Enhancements
+
+- Add GF icon ([032e50c](https://github.com/magicdawn/greasyfork-feedback-filter/commit/032e50c))
+
+### 🏡 Chore
+
+- Add issue link ([a5a3551](https://github.com/magicdawn/greasyfork-feedback-filter/commit/a5a3551))
+
+### ❤️ Contributors
+
+- Magicdawn ([@magicdawn](http://github.com/magicdawn))
+
 ## v0.0.3
 
 [compare changes](https://github.com/magicdawn/greasyfork-feedback-filter/compare/v0.0.2...v0.0.3)

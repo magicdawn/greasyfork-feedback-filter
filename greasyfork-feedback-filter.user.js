@@ -1,11 +1,11 @@
 // ==UserScript==
 // @name         GreasyFork Feedback Filter
 // @namespace    https://magicdawn.fun/greasyfork-feedback-filter
-// @version      0.0.3
+// @version      0.0.4
 // @author       monkey
 // @description  Help U to hide or filter script feedbacks
 // @license      MIT
-// @icon         https://vitejs.dev/logo.svg
+// @icon         https://raw.gitmirror.com/greasyfork-org/greasyfork/main/public/images/blacklogo96.png
 // @source       https://github.com/magicdawn/greasyfork-feedback-filter.git
 // @match        https://greasyfork.org/*
 // @require      https://registry.npmmirror.com/react/18.3.1/files/umd/react.production.min.js
