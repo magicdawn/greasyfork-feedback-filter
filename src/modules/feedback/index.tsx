@@ -149,7 +149,7 @@ function HideWithStyles() {
   // rating level
   const selectors: string[] = useMemo(() => {
     return [...hiddenRatings.map((x) => `[${ATTR_NAME_RATING}="${x}"]`)]
-  }, [hiddenRatings, blacklist])
+  }, [hiddenRatings])
 
   // blacklist
   const blacklistSelectors: string[] = useMemo(() => {
@@ -176,23 +176,24 @@ function HideWithStyles() {
 
   return (
     <Global
-      styles={[
-        // hide in MY script feedback-list
-        filterEnabled &&
+      styles={
+        filterEnabled && [
+          // hide in MY script feedback-list
           hasAdminPermission &&
-          css`
-            ${selectors.join(',')} {
-              display: none !important;
-            }
-          `,
-        // hide anywhere
-        filterEnabled &&
+            css`
+              ${selectors.join(',')} {
+                display: none !important;
+              }
+            `,
+
+          // hide anywhere
           css`
             ${blacklistSelectors.join(',')} {
               display: none !important;
             }
           `,
-      ]}
+        ]
+      }
     />
   )
 }
