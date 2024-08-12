@@ -94,7 +94,7 @@ export function ModalConfig() {
         Hide Ratings
         <HelpInfo>
           Hide feedbacks of checked types. <br />
-          P.S ONLY apply to current script when u are the script owner or has admin permission.
+          P.S ONLY apply the scripts you own or when you have admin permission.
         </HelpInfo>
       </p>
       <div>

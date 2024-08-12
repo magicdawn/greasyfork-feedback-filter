@@ -10,6 +10,7 @@ import { Button } from 'antd'
 import { useMemo } from 'react'
 import { createRoot } from 'react-dom/client'
 import IconParkSolidConfig from '~icons/icon-park-solid/config'
+import { HAS_ADDMIN_PERMISSION } from './admin-permission'
 
 export function initFeedback() {
   initFilterFeedbacks()
@@ -39,17 +40,6 @@ async function processFeedbacks() {
     handleFeedbackItem(item)
   }
 }
-
-function getHasAdminPermission() {
-  const adminUrl = new URL('./admin', location.href)
-  const adminUrlPath = adminUrl.pathname
-  const hasAdminEntry = !!document.querySelector<HTMLAnchorElement>(
-    `#script-links a[href^='${adminUrlPath}']`,
-  )
-  return hasAdminEntry
-}
-
-const hasAdminPermission = getHasAdminPermission()
 
 function handleFeedbackItem(item: HTMLDivElement) {
   if (processed.has(item)) return
@@ -179,7 +169,7 @@ function HideWithStyles() {
       styles={
         filterEnabled && [
           // hide in MY script feedback-list
-          hasAdminPermission &&
+          HAS_ADDMIN_PERMISSION &&
             css`
               ${selectors.join(',')} {
                 display: none !important;
