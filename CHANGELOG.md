@@ -1,5 +1,8 @@
 # Changelog
 
+> [!CAUTION]
+> Changelog after v0.0.4 is present on [GitHub Release](https://github.com/magicdawn/greasyfork-feedback-filter/releases/)
+
 ## v0.0.4
 
 [compare changes](https://github.com/magicdawn/greasyfork-feedback-filter/compare/v0.0.3...v0.0.4)

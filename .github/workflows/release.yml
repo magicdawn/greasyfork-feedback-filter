@@ -18,6 +18,8 @@ jobs:
       contents: write
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - uses: pnpm/action-setup@v4
 
@@ -52,13 +54,13 @@ jobs:
           # https://github.com/YDX-2147483647/BIT-enhanced/issues/4#issuecomment-1590620027
           force_orphan: false
 
-      # create release
-      - run: pnpm changelogen gh release ${{ github.ref_name }}
+      # release with changelog
+      - run: pnpx changeloggithub@0
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
 
-      # upload release
-      - name: Release
+      # release assets
+      - name: Upload *.user.js to Release
         uses: softprops/action-gh-release@v2
         with:
           files: ./dist/*.user.js
